@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>tab栏切换增强版</title>
+    <link rel="stylesheet" href="tab.css">
+</head>
+
+<body>
+    <div id="app" class="vertical-tab">
+        <!-- 左侧tab栏 -->
+        <ul class="nav nav-tabs1">
+            <li :key="item.id" v-for="(item,index) in list" v-if="index<list.length/2" @click="handleIndex(index)"
+                :class="currentIndex===index?'active':''">
+                <a href="javascript:;">{{item.title}}</a>
+            </li>
+        </ul>
+        <!-- 中间内容区域 -->
+        <div class="tab-content tabs">
+            <div class="tab-pane fade" :key="item.id" v-for="(item,index) in list"
+                :class="currentIndex===index?'active':''">
+                <h3>{{item.title}}</h3>
+                <p>{{item.content}}</p>
+            </div>
+        </div>
+        <ul class="nav nav-tabs2">
+            <!-- 右侧tab栏 -->
+            <li :key="item.id" v-for="(item,index) in list" v-if="index>=list.length/2" @click="handleIndex(index)"
+                :class="currentIndex===index?'active':''">
+                <a href="javascript:;">{{item.title}}</a>
+            </li>
+        </ul>
+    </div>
+
+    <script src="vue.js"></script>
+    <script>
+        /*
+            需求：
+            1 点击tab栏 内容区域显示对于的内容
+            2 同时当前tab栏的字体颜色变为蓝色
+        */
+        var vue = new Vue({
+            el: '#app',
+            data: {
+                // 当前点击tab栏的索引
+                currentIndex: 0,
+                list: [{
+                    id: 1,
+                    title: 'Section 1',
+                    content: 'content1'
+                }, {
+                    id: 2,
+                    title: 'Section 2',
+                    content: 'content2'
+                }, {
+                    id: 3,
+                    title: 'Section 3',
+                    content: 'content3'
+                }, {
+                    id: 4,
+                    title: 'Section 4',
+                    content: 'content4'
+                }, {
+                    id: 5,
+                    title: 'Section 5',
+                    content: 'content5'
+                }, {
+                    id: 6,
+                    title: 'Section 6',
+                    content: 'content6'
+                }]
+            },
+            methods: {
+                handleIndex(index) {
+                    // 改变tab栏的索引
+                    this.currentIndex = index;
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

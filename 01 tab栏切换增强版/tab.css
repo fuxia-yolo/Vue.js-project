@@ -1,0 +1,90 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.vertical-tab {
+    width: 920px;
+    margin: 100px auto;
+}
+
+.vertical-tab .nav {
+    list-style: none;
+    width: 200px;
+}
+
+.vertical-tab .nav-tabs1 {
+    border-right: 3px solid #e7e7e7;
+}
+
+.vertical-tab .nav-tabs2 {
+    border-left: 3px solid #e7e7e7;
+}
+
+.vertical-tab .nav a {
+    display: block;
+    font-size: 18px;
+    font-weight: 700;
+    text-align: center;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 10px 20px;
+    margin: 0 0 1px 0;
+    text-decoration: none;
+}
+
+.vertical-tab .tab-content {
+    color: #555;
+    background-color: #fff;
+    font-size: 15px;
+    letter-spacing: 1px;
+    line-height: 23px;
+    padding: 10px 15px 10px 25px;
+    display: table-cell;
+    position: relative;
+}
+
+.vertical-tab .nav-tabs1 {
+    float: left;
+}
+
+.vertical-tab .tabs {
+    width: 500px;
+    box-sizing: border-box;
+    float: left;
+}
+
+.vertical-tab .tab-content h3 {
+    font-weight: 600;
+    text-transform: uppercase;
+    margin: 0 0 5px 0;
+}
+
+.vertical-tab .nav-tabs2 {
+    float: right;
+}
+
+.tab-content {
+    position: relative;
+}
+
+.tab-content .tab-pane {
+    position: absolute;
+    top: 10px;
+    left: 20px;
+}
+
+.nav li.active a {
+    color: #198df8;
+    background: #fff;
+    border: none;
+}
+
+.fade {
+    opacity: 0;
+    transition: all .3s linear;
+}
+
+.fade.active {
+    opacity: 1;
+}
