@@ -2,76 +2,78 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>todos</title>
-    <link rel="stylesheet" href="css/index.css">
-    <link rel="stylesheet" href="css/base.css">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>todos</title>
+	<link rel="stylesheet" href="css/index.css">
+	<link rel="stylesheet" href="css/base.css">
 </head>
 
 <body>
-    <section id="todoapp" class="todoapp">
-        <header class="header">
-            <h1>todos</h1>
-            <input placeholder="What needs to be done?" class="new-todo">
-        </header>
-        <section class="main">
-            <input id="toggle-all" type="checkbox" class="toggle-all">
-            <label for="toggle-all">Mark all as complete</label>
-            <ul class="todo-list">
-                <!-- 渲染列表 -->
-                <li :class="{completed: item.completed}" :key="item.id" v-for="(item,index) in todos">
-                    <div class="view">
-                        <input type="checkbox" class="toggle">
-                        <label>{{item.title}}</label>
-                        <button class="destroy">
-                        </button></div>
-                    <input class="edit">
-                </li>
-            </ul>
-        </section>
-        <footer class="footer">
-            <span class="todo-count">
-                <strong>2</strong> item left</span>
-            <ul class="filters">
-                <li><a href="#" class="selected">All</a></li>
-                <li><a href="#">Active</a></li>
-                <li><a href="#">Completed</a></li>
-            </ul>
-            <button class="clear-completed">Clear completed</button>
-        </footer>
-    </section>
+	<section id="todoapp" class="todoapp">
+		<header class="header">
+			<h1>todos</h1>
+			<!-- 2 添加任务 -->
+			<input placeholder="What needs to be done?" class="new-todo" @keyup.enter="addTodo">
+		</header>
+		<section class="main">
+			<!-- 3 全选功能 -->
+			<!-- 3.1 通过双向绑定获取当前复选框的选中状态 -->
+			<input id="toggle-all" type="checkbox" class="toggle-all" v-model="toggleStatus">
+			<label for="toggle-all">Mark all as complete</label>
+			<ul class="todo-list">
+				<!-- 1 渲染页面 -->
+				<!-- 5 编辑功能 -->
+				<!-- 5.1 点击的时候通过一个标识符来控制是否给当前 li 添加 editing 类名 -->
+				<li :key="item.id" v-for="(item,index) in todos"
+					class="{completed: item.completed, editing: item ===  currentEditing}" v-show="flag || item.done">
+					<div class=" view">
+						<!-- 
+							3.2 点击单个 li 里面的复选框的时候 如果当前复选框选中 则当前的状态为完成状态
+							3.3 通过双向绑定获取当前复选框的选中状态 通过选中状态动态改变 completed 的值
+						-->
+						<!-- v-model: checked <——> item.completed -->
+						<input type="checkbox" class="toggle" v-model="item.completed">
+						<!-- 5.2 给当前标题添加双击事件 -->
+						<label @dblclick="currentEditing = item">{{item.title}}</label>
+						<!-- 4 删除功能 -->
+						<!-- 4.1 给按钮添加点击事件 -->
+						<button class="destroy" @click="removeTodo(index)"></button>
+					</div>
+					<!-- 
+						5.3 输入框的默认值为当前标题 
+						5.4 当用户没有编辑 按esc退出时 数据不变
+						5.5 当用户输入内容按回车键时 更新标题
+						5.6 当用户失去焦点时 更新标题 
+					 -->
+					<input class="edit" :value="item.title" @keyup.esc="currentEditing = null"
+						@keyup.enter="saveEdit(item, index, $event)" @blur="saveEdit(item, index, $event)">
+				</li>
+			</ul>
+		</section>
+		<footer class="footer">
+			<span class="todo-count">
+				<!-- 7 统计未完成项 -->
+				<strong>{{leftCount}}</strong> item left</span>
+			<ul class="filters">
+				<!-- 10 所有项 -->
+				<li @click="all"><a href="#" :class="{selected: flag}">All</a></li>
+				<!-- 8 只看未完成项 -->
+				<li @click="undone"><a href="#" :class="{selected: !flag1}">Active</a></li>
+				<!-- 9 只看已完成项 -->
+				<li @click="done"><a href="#" :class="{selected: flag1}">Completed</a></li>
+			</ul>
+			<!-- 
+				6 删除已完成项
+				6.1 点击 Clear completed 时删除所有的已完成项
+			 -->
+			<button class="clear-completed" @click="removeAllDone">Clear completed</button>
+		</footer>
+	</section>
 
-    <!-- 导包 -->
-    <script src="js/vue.js"></script>
-
-    <script>
-        /*
-            需求：
-            1 当在输入框中输入完内容的按回车键 当前内容展示到页面上
-            2 点击三角 实现全选和全不选功能
-            3 点击叉号实现删除功能
-            4 双击标题实现编辑功能
-        */
-        var vue = new Vue({
-            el: '#todoapp',
-            data: {
-                todos: [{
-                    id: 1,
-                    title: '吃饭',
-                    completed: false
-                }, {
-                    id: 2,
-                    title: '睡觉',
-                    completed: false
-                }, {
-                    id: 3,
-                    title: '打豆豆',
-                    completed: true
-                }]
-            }
-        });
-    </script>
+	<!-- 导包 -->
+	<script src="js/vue.js"></script>
+	<script src="js/todos.js"></script>
 </body>
 
 </html>
